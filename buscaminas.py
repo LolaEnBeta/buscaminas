@@ -31,10 +31,17 @@ def calculate_neigbours(current_row, current_column, buscaminas):
                 neighbours += 1
     buscaminas[current_row][current_column] = neighbours   
 
+def select_box_one_by_one_to_calculate_neighbours(buscaminas):
+    for row_index in range(1, board_size - 1):
+        for column_index in range(1, board_size -1):
+            if buscaminas[row_index][column_index] == "*":
+                continue
+            calculate_neigbours(row_index, column_index, buscaminas)
+
 buscaminas = create_board(board_size)
 
 generate_minas(10, buscaminas)
 
-calculate_neigbours(1, 1, buscaminas)
+select_box_one_by_one_to_calculate_neighbours(buscaminas)
 
 print_board(buscaminas)
