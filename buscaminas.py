@@ -42,6 +42,9 @@ buscaminas = create_board(board_size)
 
 generate_minas(10, buscaminas)
 
-select_box_one_by_one_to_calculate_neighbours(buscaminas)
+row = int(input("Choose a row: "))
+column = int(input("Choose a column: "))
+
+calculate_neigbours(row, column, buscaminas)
 
 print_board(buscaminas)
