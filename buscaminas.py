@@ -30,35 +30,51 @@ def calculate_neighbours(current_row, current_column, buscaminas, ri, rf, ci, cf
             if buscaminas[row_index][column_index] == "*":
                 neighbours += 1
     buscaminas[current_row][current_column] = neighbours
+
+    return neighbours
+
+def calculate_for_first_row(current_row, current_column, buscaminas):
+    if current_column == 0:
+        neighbours = calculate_neighbours(current_row, current_column, buscaminas, 0, 2, 0, 2)
+    elif current_column == board_size - 1:
+        neighbours = calculate_neighbours(current_row, current_column, buscaminas, 0, 2, 1, 1)
+    else:
+        neighbours = calculate_neighbours(current_row, current_column, buscaminas, 0, 2, 1, 2)
+
+    return neighbours
+
+def calculate_for_last_row(current_row, current_column, buscaminas):
+    if current_column == 0:
+        neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 1, 0, 1)
+    elif current_column == board_size - 1:
+        neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 1, 1, 1)
+    else:
+        neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 1, 1, 2)
+
+    return neighbours
+
+def calculate_for_the_rest(current_row, current_column, buscaminas):
+    if current_column == 0:
+        neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 2, 0, 2)
+    elif current_column == board_size - 1:
+        neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 2, 1, 1)
+    else:
+        neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 2, 1, 2)
+
     return neighbours
 
 def calculate_neigbours_in_current_box(current_row, current_column, buscaminas):
     # para la primera fila
     if current_row == 0:
-        if current_column == 0:
-            neighbours = calculate_neighbours(current_row, current_column, buscaminas, 0, 2, 0, 2)
-        elif current_column == board_size - 1:
-            neighbours = calculate_neighbours(current_row, current_column, buscaminas, 0, 2, 1, 1)
-        else:
-            neighbours = calculate_neighbours(current_row, current_column, buscaminas, 0, 2, 1, 2)
+        neighbours = calculate_for_first_row(current_row, current_column, buscaminas)
 
     # para la ultima fila
     elif current_row == board_size - 1:
-        if current_column == 0:
-            neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 1, 0, 1)
-        elif current_column == board_size - 1:
-            neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 1, 1, 1)
-        else:
-            neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 1, 1, 2)
-
+        neighbours = calculate_for_last_row(current_row, current_column, buscaminas)
     # para filas y columnas centricas
     else:
-        if current_column == 0:
-            neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 2, 0, 2)
-        elif current_column == board_size - 1:
-            neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 2, 1, 1)
-        else:
-            neighbours = calculate_neighbours(current_row, current_column, buscaminas, 1, 2, 1, 2)
+        neighbours = calculate_for_the_rest(current_row, current_column, buscaminas)
+
     return neighbours
 
 def select_box_one_by_one_to_calculate_neighbours(buscaminas):
@@ -78,7 +94,8 @@ while True:
     row = int(input("Choose a row: "))
     column = int(input("Choose a column: "))
     if buscaminas[row][column] == "*":
-        print("BOOOM")
+        print_board(buscaminas)
+        print("¡¡¡BOOOM!!!")
         exit()
     else:
         neighbours_in_current_box = calculate_neigbours_in_current_box(row, column, buscaminas)
