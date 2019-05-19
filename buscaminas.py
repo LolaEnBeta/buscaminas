@@ -78,10 +78,13 @@ while True:
     print_board(secret_buscaminas)
     row = int(input("Choose a row: "))
     column = int(input("Choose a column: "))
-    if buscaminas[row][column] == "*":
-        print_board(buscaminas)
-        print("¡¡¡BOOOM!!!")
-        exit()
+    if row >= 0 and row <= board_size -1 and column >= 0 and column <= board_size -1:
+        if buscaminas[row][column] == "*":
+            print_board(buscaminas)
+            print("¡¡¡BOOOM!!!")
+            exit()
+        else:
+            neighbours_in_current_box = calculate_neigbours_in_current_box(row, column, buscaminas)
+            secret_buscaminas[row][column] = neighbours_in_current_box
     else:
-        neighbours_in_current_box = calculate_neigbours_in_current_box(row, column, buscaminas)
-        secret_buscaminas[row][column] = neighbours_in_current_box
+        print("Wrong values!")
