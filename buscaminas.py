@@ -68,6 +68,16 @@ def select_box_one_by_one_to_calculate_neighbours(buscaminas):
                 continue
             calculate_neigbours(row_index, column_index, buscaminas)
 
+def get_user_input():
+    row = int(input("Choose a row: "))
+    column = int(input("Choose a column: "))
+
+    while row < 0 or row >= board_size or column < 0 or column >= board_size:
+        row = int(input("Choose a row: "))
+        column = int(input("Choose a column: "))
+
+    return row, column
+
 buscaminas = create_board(board_size)
 
 generate_minas(10, buscaminas)
@@ -76,15 +86,12 @@ secret_buscaminas = create_board(board_size)
 
 while True:
     print_board(secret_buscaminas)
-    row = int(input("Choose a row: "))
-    column = int(input("Choose a column: "))
-    if row >= 0 and row <= board_size -1 and column >= 0 and column <= board_size -1:
-        if buscaminas[row][column] == "*":
-            print_board(buscaminas)
-            print("¡¡¡BOOOM!!!")
-            exit()
-        else:
-            neighbours_in_current_box = calculate_neigbours_in_current_box(row, column, buscaminas)
-            secret_buscaminas[row][column] = neighbours_in_current_box
+    row, column = get_user_input()
+
+    if buscaminas[row][column] == "*":
+        print_board(buscaminas)
+        print("¡¡¡BOOOM!!!")
+        exit()
     else:
-        print("Wrong values!")
+        neighbours_in_current_box = calculate_neigbours_in_current_box(row, column, buscaminas)
+        secret_buscaminas[row][column] = neighbours_in_current_box
